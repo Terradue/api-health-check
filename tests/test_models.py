@@ -145,9 +145,14 @@ class HealthPayloadTests(unittest.TestCase):
         with self.assertRaises(ValidationError):
             ComponentHealth(links={"about": "not a URI"})
 
-    def test_empty_checks_mapping_is_rejected(self) -> None:
+    def test_empty_checks_mapping_is_accepted(self) -> None:
+        response = HealthyResponse(status="pass", checks={})
+
+        self.assertEqual(response.checks, {})
+
+    def test_empty_component_observations_are_rejected(self) -> None:
         with self.assertRaises(ValidationError):
-            HealthyResponse(status="pass", checks={})
+            HealthyResponse(status="pass", checks={"database": []})
 
     def test_extension_fields_are_preserved(self) -> None:
         observation = ComponentHealth(

@@ -148,6 +148,12 @@ components:
       - error
       - down
 
+    WarnStatus:
+      type: string
+      description: |
+        Case-insensitive service healthy, with some concerns, status.
+      const: warn
+
     Links:
       type: object
       description: |
@@ -224,10 +230,7 @@ components:
         - status
         properties:
           status:
-            type: string
-            description: |
-              Case-insensitive service healthy, with some concerns, status.
-            const: warn
+            $ref: '#/components/schemas/WarnStatus'
 
     Checks:
       type: object
