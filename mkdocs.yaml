@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-site_name: Problems Registry
+site_name: API Health CHeck
 site_url: https://eoap.github.io/api-health-check/
 site_author: Fabrice Brito, Simone Tripodi
 repo_url: https://github.com/eoap/api-health-check/
@@ -71,32 +71,10 @@ extra_javascript:
 
 nav:
 - Home: index.md
-- Problems Registry:
-  - EOAP Problem Types:
-    - already-exists.md
-    - business-rule-violation.md
-    - invalid-body-property-format.md
-    - invalid-body-property-value.md
-    - invalid-request-header-format.md
-    - invalid-request-parameter-format.md
-    - invalid-request-parameter-value.md
-    - invalid-state-transition.md
-    - license-cancelled.md
-    - license-expired.md
-    - missing-body-property.md
-    - missing-request-header.md
-    - missing-request-parameter.md
-    - validation-error.md
-  - Common Problem Types:
-    - bad-request.md
-    - forbidden.md
-    - invalid-parameters.md
-    - not-found.md
-    - service-unavailable.md
-    - server-error.md
-    - unauthorized.md
 - Schemas:
   - JSON Schema: json-schema.md
-  - OpenAPI: openapi.yaml
+  - OpenAPI:
+    - Human Readable Documentation: openapi.html
+    - For processors: openapi.yaml
 
 copyright: <a href="https://www.apache.org/licenses/LICENSE-2.0"><img src="https://img.shields.io/badge/license-Apache%20License%202.0-blue"" alt="Apache License, Version 2.0" /></a>
