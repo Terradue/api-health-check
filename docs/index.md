@@ -112,6 +112,43 @@ The models use idiomatic `snake_case` Python attributes and accept the
 camel-cased OpenAPI property names as aliases. Use `by_alias=True` when
 serializing a response for the API.
 
+## FastAPI integration
+
+Since version 0.3.0, the package includes an optional FastAPI extension with a
+`HealthJSONResponse` convenience response. Install the FastAPI extra:
+
+```console
+pip install "eoap-api-health-check[fastapi]"
+```
+
+The response accepts a `HealthyResponse`, `WarnResponse`, or
+`UnhealthyResponse`, serializes it with the OpenAPI property aliases, serves it
+as `application/health+json`, and adds `Cache-Control: max-age=60` by default:
+
+```python
+from fastapi import FastAPI
+
+from eoap_api_health_check import HealthyResponse
+from eoap_api_health_check.fastapi import HealthJSONResponse
+
+app = FastAPI()
+
+
+@app.get("/health", response_class=HealthJSONResponse)
+def health() -> HealthJSONResponse:
+    return HealthJSONResponse(
+        HealthyResponse(
+            status="pass",
+            version="1.0.0",
+            service_id="catalogue-api",
+        )
+    )
+```
+
+The optional `status_code` argument changes the HTTP status. Use
+`cache_control` to provide another caching policy, or set it to `None` to omit
+the header.
+
 ## Project artifacts
 
 - [OpenAPI definition](openapi.yaml) — the complete API and schema contract.

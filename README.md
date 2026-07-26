@@ -66,6 +66,41 @@ Property names in Python use `snake_case`; passing aliases such as
 `componentType` is also supported. Serializing with `by_alias=True` produces
 the camel-cased names defined by the wire format.
 
+## FastAPI integration
+
+Since version 0.3.0, an optional FastAPI extension provides the
+`HealthJSONResponse` convenience response. Install it with:
+
+```console
+pip install "eoap-api-health-check[fastapi]"
+```
+
+Use the response in a route to serialize a health model as
+`application/health+json` and add a default `Cache-Control: max-age=60` header:
+
+```python
+from fastapi import FastAPI
+
+from eoap_api_health_check import HealthyResponse
+from eoap_api_health_check.fastapi import HealthJSONResponse
+
+app = FastAPI()
+
+
+@app.get("/health", response_class=HealthJSONResponse)
+def health() -> HealthJSONResponse:
+    return HealthJSONResponse(
+        HealthyResponse(
+            status="pass",
+            version="1.0.0",
+            service_id="catalogue-api",
+        )
+    )
+```
+
+Pass `status_code` or `cache_control` to customize the HTTP response. Set
+`cache_control=None` to omit the cache header.
+
 ## Development
 
 Do not edit `src/eoap_api_health_check/__init__.py` directly: it is regenerated
