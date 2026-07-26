@@ -62,9 +62,10 @@ class StatusResponseTests(unittest.TestCase):
         )
 
         for response_type, status in invalid_statuses:
-            with self.subTest(response_type=response_type.__name__, status=status):
-                with self.assertRaises(ValidationError):
-                    response_type(status=status)
+            with self.subTest(
+                response_type=response_type.__name__, status=status
+            ), self.assertRaises(ValidationError):
+                response_type(status=status)
 
     def test_warn_response_defaults_to_warn(self) -> None:
         response = WarnResponse()
