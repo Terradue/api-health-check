@@ -17,10 +17,11 @@
 #   timestamp: 2026-07-23T08:53:38+00:00
 
 from __future__ import annotations
-from pydantic import BaseModel
+
 from enum import Enum
 from typing import Annotated, Any, Literal
-from pydantic import AnyUrl, AwareDatetime, ConfigDict, Field
+
+from pydantic import AnyUrl, AwareDatetime, BaseModel, ConfigDict, Field
 from typing_extensions import TypeAliasType
 
 
