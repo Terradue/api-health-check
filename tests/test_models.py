@@ -66,7 +66,7 @@ class StatusResponseTests(unittest.TestCase):
                 self.subTest(response_type=response_type.__name__, status=status),
                 self.assertRaises(ValidationError),
             ):
-                response_type(status=status)
+                response_type.model_validate({"status": status})
 
     def test_warn_response_defaults_to_warn(self) -> None:
         response = WarnResponse()
@@ -76,22 +76,24 @@ class StatusResponseTests(unittest.TestCase):
 
 class HealthPayloadTests(unittest.TestCase):
     def test_openapi_aliases_are_accepted_and_used_for_serialization(self) -> None:
-        response = HealthyResponse(
-            status="pass",
-            releaseId="2026.07.22",
-            serviceId="catalogue-api",
-            checks={
-                "database:responseTime": [
-                    ComponentHealth(
-                        componentId="primary",
-                        componentType="datastore",
-                        observedValue=42,
-                        observedUnit="ms",
-                        affectedEndpoints=["/products/{productId}"],
-                        status="pass",
-                    )
-                ]
-            },
+        response = HealthyResponse.model_validate(
+            {
+                "status": "pass",
+                "releaseId": "2026.07.22",
+                "serviceId": "catalogue-api",
+                "checks": {
+                    "database:responseTime": [
+                        {
+                            "componentId": "primary",
+                            "componentType": "datastore",
+                            "observedValue": 42,
+                            "observedUnit": "ms",
+                            "affectedEndpoints": ["/products/{productId}"],
+                            "status": "pass",
+                        }
+                    ]
+                },
+            }
         )
 
         payload = response.model_dump(by_alias=True, mode="json", exclude_none=True)
@@ -121,11 +123,13 @@ class HealthPayloadTests(unittest.TestCase):
 
     def test_component_metadata_is_parsed_and_serialized(self) -> None:
         observed_at = datetime(2026, 7, 22, 10, 30, tzinfo=timezone.utc)
-        observation = ComponentHealth(
-            status="warn",
-            time=observed_at,
-            output="Response time is above the preferred threshold",
-            links={"about": "https://api.example.com/about/database"},
+        observation = ComponentHealth.model_validate(
+            {
+                "status": "warn",
+                "time": observed_at,
+                "output": "Response time is above the preferred threshold",
+                "links": {"about": "https://api.example.com/about/database"},
+            }
         )
 
         payload = observation.model_dump(mode="json", exclude_none=True)
@@ -141,28 +145,35 @@ class HealthPayloadTests(unittest.TestCase):
 
     def test_naive_component_timestamp_is_rejected(self) -> None:
         with self.assertRaises(ValidationError):
-            ComponentHealth(time="2026-07-22T10:30:00")
+            ComponentHealth.model_validate({"time": "2026-07-22T10:30:00"})
 
     def test_invalid_link_is_rejected(self) -> None:
         with self.assertRaises(ValidationError):
-            ComponentHealth(links={"about": "not a URI"})
+            ComponentHealth.model_validate({"links": {"about": "not a URI"}})
 
     def test_empty_checks_mapping_is_accepted(self) -> None:
-        response = HealthyResponse(status="pass", checks={})
+        response = HealthyResponse(status=HealthyStatus.PASS, checks={})
 
         self.assertEqual(response.checks, {})
 
     def test_empty_component_observations_are_rejected(self) -> None:
         with self.assertRaises(ValidationError):
-            HealthyResponse(status="pass", checks={"database": []})
+            HealthyResponse(
+                status=HealthyStatus.PASS,
+                checks={"database": []},
+            )
 
     def test_extension_fields_are_preserved(self) -> None:
-        observation = ComponentHealth(
-            componentType="datastore",
-            status="warn",
-            retryAfterSeconds=30,
+        observation = ComponentHealth.model_validate(
+            {
+                "componentType": "datastore",
+                "status": "warn",
+                "retryAfterSeconds": 30,
+            }
         )
-        response = WarnResponse(region="eu-west", checks={"database": [observation]})
+        response = WarnResponse.model_validate(
+            {"region": "eu-west", "checks": {"database": [observation]}}
+        )
 
         payload = response.model_dump(by_alias=True, mode="json", exclude_none=True)
 

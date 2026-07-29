@@ -15,10 +15,12 @@
 from __future__ import annotations
 
 from http import HTTPStatus
+from typing import TYPE_CHECKING
 
 from fastapi.responses import JSONResponse
 
-from . import HealthyResponse, UnhealthyResponse, WarnResponse
+if TYPE_CHECKING:
+    from . import HealthyResponse, UnhealthyResponse, WarnResponse
 
 CACHE_CONTROL_HEADER = "Cache-Control"
 

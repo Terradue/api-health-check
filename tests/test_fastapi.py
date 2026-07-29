@@ -36,7 +36,7 @@ class HealthJSONResponseTests(unittest.TestCase):
         self.assertEqual(response.media_type, HEALTH_JSON_MEDIA_TYPE)
         self.assertEqual(response.headers["cache-control"], "max-age=60")
         self.assertEqual(
-            json.loads(response.body),
+            json.loads(bytes(response.body)),
             {"status": "up", "serviceId": "catalogue-api"},
         )
 

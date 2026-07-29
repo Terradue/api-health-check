@@ -36,7 +36,7 @@ class HealthyStatus(Enum):
 
     """
 
-    PASS = "pass"
+    PASS = "pass"  # nosec B105
     OK = "ok"
     UP = "up"
 
