@@ -11,8 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Stronger code chekers with Ruff+McCabe & Bandit
-
 ### Deprecated
 
 ### Removed
@@ -20,6 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+[0.4.0] - 2026-07-31
+
+### Added
+
+- Stronger code chekers with Ruff+McCabe & Bandit
 
 [0.3.0] - 2026-07-26
 
@@ -43,7 +47,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Initial version
 
-[Unreleased]: https://github.com/eoap/api-health-check/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/eoap/api-health-check/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/Terradue/api-health-check/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/Terradue/api-health-check/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/Terradue/api-health-check/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/eoap/api-health-check/releases/tag/v0.1.0

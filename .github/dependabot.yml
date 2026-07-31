@@ -1,4 +1,4 @@
-# Copyright 2026 EOAP
+# Copyright 2026 Terradue
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,19 +15,20 @@
 version: 2
 
 updates:
-- package-ecosystem: "pip"
-  directory: "/"
-  schedule:
-    interval: "daily"
-    time: "05:00"
-    timezone: "Europe/Rome"
-  versioning-strategy: "increase"
-  open-pull-requests-limit: 10
+  - package-ecosystem: "pip"
+    target-branch: "develop"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "05:00"
+      timezone: "Europe/Rome"
+    versioning-strategy: "increase"
+    open-pull-requests-limit: 10
 
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: "daily"
-    time: "05:15"
-    timezone: "Europe/Rome"
-  open-pull-requests-limit: 5
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "05:15"
+      timezone: "Europe/Rome"
+    open-pull-requests-limit: 5
